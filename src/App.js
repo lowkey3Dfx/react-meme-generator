@@ -35,7 +35,7 @@ function App() {
 
       <div className="section">
         <label>
-          <h4>Choose Template 👇🏼</h4>
+          <h4>Meme template 👇🏼</h4>
           <select
             value={meme}
             onChange={(e) => setMeme(e.currentTarget.value)}
