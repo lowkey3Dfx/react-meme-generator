@@ -2,29 +2,7 @@ import './App.css';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { useState } from 'react';
-import styled from 'styled-components';
 import Header from './components/Header.js';
-
-const Button = styled.button`
-  font-size: 0.9rem;
-  background: #cf5c36;
-  transition: background-color 1s ease-out 100ms;
-  border-radius: 3px;
-  color: #fff;
-  margin: 0.5em 1em;
-  padding: 0.5em 1.8em;
-  border: none;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #38369a;
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-`;
 
 function App() {
   const [meme, setMeme] = useState('doge');
@@ -103,7 +81,9 @@ function App() {
         </div>
       </div>
       <img src={url} className="memeImg" alt="meme" data-test-id="meme-image" />
-      <Button onClick={downloadImage}>Download</Button>
+      <button onClick={downloadImage} className="button">
+        Download
+      </button>
     </div>
   );
 }
