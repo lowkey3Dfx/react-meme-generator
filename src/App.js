@@ -1,10 +1,9 @@
 import './App.css';
-import * as cheerio from 'cheerio';
-import fetch from 'node-fetch';
-import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+import { useState } from 'react';
+import styled from 'styled-components';
 import Header from './components/Header.js';
-import Meme from './components/Meme';
 
 const Button = styled.button`
   font-size: 0.9rem;
@@ -28,34 +27,83 @@ const Button = styled.button`
 `;
 
 function App() {
-  const [memeImage, setMemeImage] = useState(['']);
-  const website = new URL('https://api.memegen.link/templates');
-  const randomNumber = Math.floor(Math.random() * 100);
+  const [meme, setMeme] = useState('doge');
+  const [topText, setTopText] = useState('');
+  const [bottomText, setBottomText] = useState('');
+  const [memesArray, setMemesArray] = useState([]);
 
-  const getMemeImage = () => {
-    fetch(website)
-      .then((response) => response.json())
-      .then((json) => console.log(json[randomNumber].blank));
+  axios
+    .get('https://api.memegen.link/templates/')
+    .then(function (response) {
+      setMemesArray(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  const url = topText
+    ? `https://api.memegen.link/images/${meme}/${topText
+        .replace('?', '~q')
+        .replace('#', '~h')}/${bottomText}`
+    : `https://api.memegen.link/images/${meme}.jpg`;
+
+  const downloadImage = () => {
+    saveAs(`https://api.memegen.link/images/${meme}`, 'meme');
   };
 
   return (
     <div className="App">
       <Header />
-      <Button onClick={getMemeImage}>Get Random</Button>
-      <div className="form">
+
+      <div className="section">
         <label>
-          <input className="form--input" placeholder="Top text" type="text" />
+          <h4>Choose Template 👇🏼</h4>
+          <select
+            value={meme}
+            onChange={(e) => setMeme(e.currentTarget.value)}
+            className="text"
+          >
+            {memesArray.map((image) => (
+              <option value={image.id} key={image.id}>
+                {image.id}
+              </option>
+            ))}
+          </select>
         </label>
+
         <label>
           <input
-            className="form--input"
-            placeholder="Bottom text"
-            type="text"
+            className="text"
+            value={meme}
+            onChange={(e) => setMeme(e.currentTarget.value)}
           />
         </label>
+        <div className="text--section">
+          <label>
+            <input
+              placeholder="Top Text"
+              className="text"
+              value={topText}
+              onChange={(e) => {
+                setTopText(e.currentTarget.value);
+              }}
+            />
+          </label>
+
+          <label>
+            <input
+              placeholder="Bottom Text"
+              className="text"
+              value={bottomText}
+              onChange={(e) => {
+                setBottomText(e.currentTarget.value);
+              }}
+            />
+          </label>
+        </div>
       </div>
-      <Meme />
-      <Button onClick={getMemeImage}>Download</Button>
+      <img src={url} className="memeImg" alt="meme" data-test-id="meme-image" />
+      <Button onClick={downloadImage}>Download</Button>
     </div>
   );
 }
