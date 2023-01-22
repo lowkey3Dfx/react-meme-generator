@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Header from './components/Header.js';
 
 function App() {
-  const [meme, setMeme] = useState('doge');
+  const [meme, setMeme] = useState('bender');
   const [topText, setTopText] = useState('');
   const [bottomText, setBottomText] = useState('');
   const [memesArray, setMemesArray] = useState([]);
@@ -34,8 +34,8 @@ function App() {
       <Header />
 
       <div className="section">
+        Meme template
         <label>
-          <h4>Meme template 👇🏼</h4>
           <select
             value={meme}
             onChange={(e) => setMeme(e.currentTarget.value)}
@@ -48,7 +48,6 @@ function App() {
             ))}
           </select>
         </label>
-
         <label>
           <input
             className="text"
@@ -57,9 +56,10 @@ function App() {
           />
         </label>
         <div className="text--section">
+          Top Text
           <label>
             <input
-              placeholder="Top Text"
+              placeholder="Top text"
               className="text"
               value={topText}
               onChange={(e) => {
@@ -67,10 +67,10 @@ function App() {
               }}
             />
           </label>
-
+          Bottom Text
           <label>
             <input
-              placeholder="Bottom Text"
+              placeholder="Bottom text"
               className="text"
               value={bottomText}
               onChange={(e) => {
