@@ -96,7 +96,3 @@ h4 {
 .button:hover {
   background-color: #38369a;
 }
-
-.button:active {
-  transform: scale(0.96);
-}
